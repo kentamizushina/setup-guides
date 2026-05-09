@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Claude Code セットアップガイド（Windows版）</title>
+<title>Claude Code セットアップガイド（Windows / Mac 対応）</title>
 <style>
 :root {
   --accent: #4A90B8;
@@ -379,9 +379,9 @@ td {
 <div class="container">
 <div class="cover">
   <div class="cover-label">Setup Guide</div>
-  <h1>Claude Code<br>Windows セットアップガイド</h1>
-  <p class="cover-sub">ゼロからAIアシスタントを使い始めるまでの完全手順書</p>
-  <p class="cover-meta">Version 1.0 / 2026-05-09 / 所要時間 約30-45分</p>
+  <h1>Claude Code<br>セットアップガイド</h1>
+  <p class="cover-sub">ゼロからAIアシスタントを使い始めるまでの完全手順書<br>Windows / Mac 両対応</p>
+  <p class="cover-meta">Version 2.0 / 2026-05-09 / 所要時間 約30-45分</p>
 </div>
 
 <!-- ==================== TOC ==================== -->
@@ -390,8 +390,8 @@ td {
   <ul class="toc">
     <li>事前に必要なもの<span class="toc-time">確認のみ</span></li>
     <li>Claudeアカウント作成<span class="toc-time">5分</span></li>
-    <li>Git for Windows インストール<span class="toc-time">5分</span></li>
-    <li>Claude Code インストール<span class="toc-time">3分</span></li>
+    <li>Git インストール（Windowsのみ）<span class="toc-time">5分</span></li>
+    <li>Claude Code インストール<span class="toc-time">3分（既に入っている場合はスキップ）</span></li>
     <li>ワークスペースの準備<span class="toc-time">3分</span></li>
     <li>初回セットアップ（/setup）<span class="toc-time">15-25分</span></li>
     <li>動作確認<span class="toc-time">3分</span></li>
@@ -405,9 +405,9 @@ td {
 <div class="flow">
   <div class="flow-item">アカウント作成 + 支払い設定</div>
   <div class="flow-arrow">&#8595;</div>
-  <div class="flow-item">Git for Windows をインストール</div>
+  <div class="flow-item">Git インストール（Windowsのみ）</div>
   <div class="flow-arrow">&#8595;</div>
-  <div class="flow-item">Claude Code をインストール</div>
+  <div class="flow-item">Claude Code をインストール（未導入の場合）</div>
   <div class="flow-arrow">&#8595;</div>
   <div class="flow-item">ワークスペースをダウンロード</div>
   <div class="flow-arrow">&#8595;</div>
@@ -420,16 +420,11 @@ td {
 
 <div class="card">
   <ul class="checklist">
-    <li>Windows 10（バージョン1809以降）または Windows 11 のパソコン</li>
+    <li>Windows 10（1809以降）/ Windows 11 / macOS のパソコン</li>
     <li>インターネット接続</li>
     <li>支払い用のクレジットカードまたはデビットカード</li>
     <li>Googleアカウント（Gmail）</li>
   </ul>
-</div>
-
-<div class="alert alert-info">
-  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
-  <span>Windowsのバージョン確認方法: キーボードの <span class="code-inline">Windows + I</span> を押す →「システム」→「バージョン情報」</span>
 </div>
 
 
@@ -484,7 +479,12 @@ td {
 
 <!-- ==================== STEP 3 ==================== -->
 <div class="page-break"></div>
-<h2>3. Git for Windows インストール</h2>
+<h2>3. Git インストール（Windowsのみ）</h2>
+
+<div class="alert alert-info">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+  <span><strong>Macの方はこのステップをスキップしてください。</strong>Macには Git が最初から入っています。</span>
+</div>
 
 <p>Claude Code が内部で使うツールです。これがないと正しく動きません。</p>
 
@@ -514,11 +514,6 @@ td {
     <p>インストーラーが起動します。<strong>すべてデフォルト（初期設定）のまま「Next」を押し続けて</strong>ください。設定を変える必要はありません。</p>
     <p>最後に「Install」→「Finish」で完了です。</p>
   </div>
-
-  <div class="alert alert-info">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
-    <span>途中で色々な設定画面が出ますが、全て初期設定のままで大丈夫です。変更しないでください。</span>
-  </div>
 </div>
 
 <div class="step">
@@ -528,20 +523,20 @@ td {
 
   <div class="substep">
     <div class="substep-label">3-5</div>
-    <p>キーボードの <span class="code-inline">Windows</span> キーを押して「PowerShell」と入力し、<strong>「Windows PowerShell」</strong>をクリックして開きます。</p>
+    <p><strong>Windows:</strong> <span class="code-inline">Windows</span> キーを押して「PowerShell」と入力 → 開く</p>
+    <p><strong>Mac:</strong> <span class="code-inline">Command + Space</span> で「ターミナル」と入力 → 開く</p>
   </div>
 
   <div class="substep">
     <div class="substep-label">3-6</div>
     <p>以下を入力して Enter を押します:</p>
     <div class="code-block">git --version</div>
-    <p>以下のように表示されれば成功です（数字は多少異なっていてOK）:</p>
-    <div class="code-block"><span class="comment">git version 2.47.1.windows.1</span></div>
+    <p>バージョン番号が表示されれば成功です。</p>
   </div>
 
   <div class="alert alert-error">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6M9 9l6 6"/></svg>
-    <span>「'git' は、内部コマンドまたは...」と表示された場合、パソコンを再起動してからもう一度試してください。</span>
+    <span><strong>Windows:</strong>「'git' は認識されていません」→ パソコンを再起動。<strong>Mac:</strong>「コマンドラインデベロッパツールをインストールしますか？」→「インストール」をクリック。</span>
   </div>
 </div>
 
@@ -550,6 +545,11 @@ td {
 <div class="page-break"></div>
 <h2>4. Claude Code インストール</h2>
 
+<div class="alert alert-info">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+  <span><strong>既に Claude Code が入っている場合はこのステップをスキップして、Step 5 に進んでください。</strong></span>
+</div>
+
 <div class="step">
   <div class="step-number">5</div>
   <div class="step-title">Claude Code をインストール</div>
@@ -557,29 +557,26 @@ td {
 
   <div class="substep">
     <div class="substep-label">4-1</div>
-    <p>PowerShell を開きます（前のステップで開いたままならそのまま使えます）。</p>
     <p>参考: <a href="https://claude.ai/download" target="_blank" style="color:var(--accent)">Claude Code 公式ダウンロードページ</a></p>
   </div>
 
   <div class="substep">
-    <div class="substep-label">4-2</div>
-    <p>以下のコマンドをコピーして、PowerShell に貼り付けて Enter を押します:</p>
+    <div class="substep-label">4-2 Windows の場合</div>
+    <p>PowerShell を開いて、以下を貼り付けて Enter:</p>
     <div class="code-block">irm https://claude.ai/install.ps1 | iex</div>
+    <p style="font-size:13px; color:var(--label-2)">コピー&amp;ペースト: マウスで選択 → Ctrl+C → PowerShell上で右クリック → Enter</p>
   </div>
 
-  <div class="alert alert-info">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
-    <span><strong>コピー&amp;ペーストの方法:</strong> 上のコマンドをマウスで選択 → <span class="code-inline">Ctrl + C</span> でコピー → PowerShell画面上で右クリック（自動で貼り付けられます）→ <span class="code-inline">Enter</span></span>
+  <div class="substep">
+    <div class="substep-label">4-2 Mac の場合</div>
+    <p>ターミナルを開いて、以下を貼り付けて Enter:</p>
+    <div class="code-block">curl -fsSL https://claude.ai/install.sh | sh</div>
   </div>
 
   <div class="substep">
     <div class="substep-label">4-3</div>
-    <p>インストールが自動で進みます。完了したら、PowerShell を<strong>一度閉じて、新しく開き直して</strong>ください。</p>
-  </div>
-
-  <div class="substep">
-    <div class="substep-label">4-4</div>
-    <p>新しいPowerShellで以下を入力して確認します:</p>
+    <p>インストールが完了したら、ターミナル/PowerShell を<strong>一度閉じて、新しく開き直して</strong>ください。</p>
+    <p>以下を入力して確認します:</p>
     <div class="code-block">claude --version</div>
     <p>バージョン番号が表示されれば成功です。</p>
   </div>
@@ -591,19 +588,19 @@ td {
   <div class="step-time">所要時間: 1分</div>
 
   <div class="substep">
-    <div class="substep-label">4-5</div>
-    <p>PowerShell で以下を入力します:</p>
+    <div class="substep-label">4-4</div>
+    <p>ターミナル（Mac）/ PowerShell（Windows）で以下を入力します:</p>
     <div class="code-block">claude</div>
   </div>
 
   <div class="substep">
-    <div class="substep-label">4-6</div>
+    <div class="substep-label">4-5</div>
     <p>初回はログインを求められます。ブラウザが自動で開くので、先ほど作成した Claude アカウントでログインしてください。</p>
-    <p>「Authorize」（許可する）をクリックすると、PowerShell に戻ります。</p>
+    <p>「Authorize」（許可する）をクリックすると、元の画面に戻ります。</p>
   </div>
 
   <div class="substep">
-    <div class="substep-label">4-7</div>
+    <div class="substep-label">4-6</div>
     <p>ログイン後、チュートリアル画面が出る場合があります。<span class="code-inline">Enter</span> で進めて、最後に <span class="code-inline">/exit</span> と入力して一度終了してください。</p>
   </div>
 </div>
@@ -620,7 +617,7 @@ td {
 
   <div class="substep">
     <div class="substep-label">5-1</div>
-    <p>PowerShell で以下のコマンドを<strong>1行ずつ</strong>入力して Enter を押します:</p>
+    <p>ターミナル（Mac）/ PowerShell（Windows）で以下のコマンドを<strong>1行ずつ</strong>入力して Enter を押します:</p>
     <div class="code-block"><span class="comment"># デスクトップに移動</span>
 cd ~/Desktop
 
@@ -658,7 +655,7 @@ git clone https://github.com/kentamizushina/ai-workspace-template.git my_workspa
 
   <div class="substep">
     <div class="substep-label">6-1</div>
-    <p>PowerShell で、ワークスペースの中にいることを確認してから:</p>
+    <p>ターミナル（Mac）/ PowerShell（Windows）で、ワークスペースの中にいることを確認してから:</p>
     <div class="code-block">claude</div>
     <p>Claude Code が起動し、入力待ちの画面になります。</p>
   </div>
@@ -723,7 +720,7 @@ git clone https://github.com/kentamizushina/ai-workspace-template.git my_workspa
     <p>/setup が完了すると、Claude が自動でテストを行い、以下のような結果が表示されます:</p>
     <div class="code-block">SETUP COMPLETE
 ==============
-OS: Windows
+OS: Windows / macOS
 User: [あなたの名前] ([役職])
 APIs: X/9 connected
 Hooks: OK
@@ -758,11 +755,11 @@ Ready to use. Type your first request.</div>
 
   <div class="substep">
     <div class="substep-label">8-1</div>
-    <p>PowerShellで、ワークスペースにいる状態で以下を入力します:</p>
+    <p>ターミナル（Mac）/ PowerShell（Windows）で、ワークスペースにいる状態で以下を入力します:</p>
     <div class="code-block">claude</div>
     <p>Claude Code が起動したら、以下を入力してください:</p>
     <div class="code-block">デスクトップにClaude Codeのショートカットを作って</div>
-    <p>Claude が自動でショートカットを作成します。</p>
+    <p>Claude がOSに合わせて自動でショートカットを作成します。</p>
   </div>
 
   <div class="substep">
@@ -820,11 +817,11 @@ Ready to use. Type your first request.</div>
     <tbody>
       <tr>
         <td>「'claude' は認識されていません」</td>
-        <td>PowerShellを閉じて開き直す。それでもダメならパソコンを再起動</td>
+        <td>ターミナル/PowerShellを閉じて開き直す。それでもダメならパソコンを再起動</td>
       </tr>
       <tr>
         <td>「'git' は認識されていません」</td>
-        <td>Git for Windows を再インストール後、パソコンを再起動</td>
+        <td><strong>Windows:</strong> Git for Windows を再インストール後、再起動。<strong>Mac:</strong>「コマンドラインツールをインストール」をクリック</td>
       </tr>
       <tr>
         <td>ログイン画面が出ない</td>
@@ -836,7 +833,7 @@ Ready to use. Type your first request.</div>
       </tr>
       <tr>
         <td>動きが遅い / 固まった</td>
-        <td><span class="code-inline">Ctrl + C</span> で中断 → もう一度 <span class="code-inline">claude</span> で起動</td>
+        <td><span class="code-inline">Ctrl + C</span>（Mac: <span class="code-inline">Control + C</span>）で中断 → もう一度 <span class="code-inline">claude</span> で起動</td>
       </tr>
       <tr>
         <td>何を聞けばいいかわからない</td>
@@ -964,7 +961,7 @@ Ready to use. Type your first request.</div>
 
 <!-- Footer -->
 <div style="text-align:center; padding:48px 0 24px; color:var(--label-3); font-size:11px;">
-  AI Agency OS / Setup Guide v1.0 / 2026-05-09
+  AI Agency OS / Setup Guide v2.0 / 2026-05-09 / Windows + Mac
 </div>
 
 </div><!-- /.container -->
