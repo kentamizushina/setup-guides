@@ -718,31 +718,27 @@ git clone https://github.com/kentamizushina/ai-workspace-template.git my_workspa
 
   <div class="substep">
     <div class="substep-label">6-4 API接続</div>
-    <p>Claude が1つずつ、外部サービスとの接続を案内します。画面に表示される手順に沿って進めてください。</p>
-    <p>接続するサービス:</p>
+    <p>ほとんどのAPIは水信が登録済みで、.envファイルに入っています。<strong>あなたが設定するのは Google OAuth だけです。</strong></p>
     <table>
       <thead>
-        <tr><th>No.</th><th>サービス</th><th>用途</th></tr>
+        <tr><th>サービス</th><th>用途</th><th>あなたの作業</th></tr>
       </thead>
       <tbody>
-        <tr><td>1</td><td><a href="https://console.cloud.google.com/" target="_blank" style="color:var(--accent)">Google (Gmail/Calendar/Drive/Sheets)</a></td><td>メール・予定・ファイル管理</td></tr>
-        <tr><td>2</td><td><a href="https://aistudio.google.com/apikey" target="_blank" style="color:var(--accent)">Gemini</a></td><td>AI文章生成・PDF読解</td></tr>
-        <tr><td>3</td><td><a href="https://developers.line.biz/console/" target="_blank" style="color:var(--accent)">LINE Messaging API</a></td><td>顧客連絡</td></tr>
-        <tr><td>4</td><td><a href="https://platform.openai.com/api-keys" target="_blank" style="color:var(--accent)">OpenAI</a></td><td>AI補助 + 画像生成</td></tr>
-        <tr><td>5</td><td><a href="https://tsukunobi.com/ai/" target="_blank" style="color:var(--accent)">NITACO CADトレースAI</a></td><td>手書き図面 → CADデータ（Beta無料・APIキー不要）</td></tr>
-        <tr><td>6</td><td><a href="https://www.reinfolib.mlit.go.jp/" target="_blank" style="color:var(--accent)">不動産情報ライブラリ</a></td><td>物件・地域データ</td></tr>
+        <tr><td><a href="https://console.cloud.google.com/" target="_blank" style="color:var(--accent)">Google OAuth</a></td><td>自分のGmail・カレンダー・Drive</td><td style="color:var(--accent); font-weight:500">Claudeの案内に従って設定</td></tr>
+        <tr><td>Gemini API</td><td>AI文章生成・PDF読解</td><td style="color:var(--label-3)">設定不要（.envに入っています）</td></tr>
+        <tr><td>LINE Messaging API</td><td>顧客連絡</td><td style="color:var(--label-3)">設定不要（.envに入っています）</td></tr>
+        <tr><td>OpenAI API</td><td>AI補助 + 画像生成</td><td style="color:var(--label-3)">設定不要（.envに入っています）</td></tr>
+        <tr><td>Anthropic API</td><td>Claude API直接呼び出し</td><td style="color:var(--label-3)">設定不要（.envに入っています）</td></tr>
+        <tr><td>Hugging Face</td><td>文字起こし等</td><td style="color:var(--label-3)">設定不要（.envに入っています）</td></tr>
+        <tr><td><a href="https://tsukunobi.com/ai/" target="_blank" style="color:var(--accent)">NITACO CADトレースAI</a></td><td>手書き図面 → CADデータ</td><td style="color:var(--label-3)">Webで直接使う（設定不要）</td></tr>
+        <tr><td>不動産情報ライブラリ</td><td>物件・地域データ</td><td style="color:var(--label-3)">水信が申請中（届き次第.envに追記）</td></tr>
       </tbody>
     </table>
   </div>
 
-  <div class="alert alert-info">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
-    <span>各サービスの設定方法は Claude が画面に詳しく表示します。ブラウザで設定ページを開いて、APIキーをコピーして貼り付けるだけです。</span>
-  </div>
-
-  <div class="alert alert-warn">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg>
-    <span>全てのサービスを一度に接続する必要はありません。後から接続を追加できます。まずは Google だけでも使い始められます。</span>
+  <div class="alert alert-success">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+    <span>Google OAuth の設定だけ完了すれば、すぐに使い始められます。Claude が画面に手順を表示するので、それに従ってください。</span>
   </div>
 </div>
 
