@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Code セットアップガイド（Windows版）</title>
+<style>
+:root {
+  --accent: #4A90B8;
+  --accent-soft: rgba(74,144,184,0.08);
+  --accent-mid: rgba(74,144,184,0.18);
+  --label: #1D1D1F;
+  --label-2: rgba(60,60,67,0.55);
+  --label-3: rgba(60,60,67,0.30);
+  --bg: #F5F5F7;
+  --surface: #FFFFFF;
+  --sep: rgba(60,60,67,0.10);
+  --fill: rgba(120,120,128,0.08);
+  --sh-card: 0 1px 4px rgba(0,0,0,0.05), 0 0.5px 1.5px rgba(0,0,0,0.03);
+  --sh-raised: 0 4px 16px rgba(0,0,0,0.06), 0 2px 6px rgba(0,0,0,0.03);
+  --negative: #D66A63;
+  --negative-soft: rgba(214,106,99,0.08);
+  --success: #5AB77B;
+  --success-soft: rgba(90,183,123,0.08);
+  --caution: #D4944A;
+  --caution-soft: rgba(212,148,74,0.08);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Noto Sans JP", "Segoe UI", sans-serif;
+  color: var(--label);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.85;
+}
+
+/* Print / PDF */
+@media print {
+  body { background: #fff; }
+  .page-break { page-break-before: always; }
+  .no-print { display: none; }
+  .card { box-shadow: none; border: 1px solid var(--sep); }
+}
+@page {
+  size: A4;
+  margin: 20mm 18mm;
+}
+
+/* Layout */
+.container {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 48px 24px;
+}
+
+/* Cover */
+.cover {
+  text-align: center;
+  padding: 80px 24px 64px;
+}
+.cover-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.cover h1 {
+  font-size: 28px;
+  font-weight: 600;
+  letter-spacing: -0.5px;
+  line-height: 1.35;
+  margin-bottom: 12px;
+}
+.cover-sub {
+  font-size: 15px;
+  color: var(--label-2);
+  margin-bottom: 32px;
+}
+.cover-meta {
+  font-size: 12px;
+  color: var(--label-3);
+}
+
+/* Section */
+h2 {
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  margin: 48px 0 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--sep);
+}
+h3 {
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.4px;
+  margin: 32px 0 12px;
+}
+h4 {
+  font-size: 15px;
+  font-weight: 600;
+  margin: 24px 0 8px;
+}
+p {
+  font-size: 15px;
+  margin-bottom: 12px;
+}
+
+/* Card */
+.card {
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 20px 24px;
+  box-shadow: var(--sh-card);
+  margin: 16px 0;
+}
+
+/* Step card */
+.step {
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: var(--sh-card);
+  margin: 24px 0;
+  position: relative;
+}
+.step-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+.step-title {
+  font-size: 17px;
+  font-weight: 600;
+  margin-bottom: 8px;
+}
+.step-time {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--label-2);
+  margin-bottom: 12px;
+}
+
+/* Substep */
+.substep {
+  margin: 16px 0;
+  padding-left: 20px;
+  border-left: 2px solid var(--sep);
+}
+.substep-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--accent);
+  margin-bottom: 4px;
+}
+
+/* Code */
+.code-block {
+  background: var(--label);
+  color: var(--bg);
+  border-radius: 8px;
+  padding: 16px 20px;
+  font-family: "SF Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 13px;
+  line-height: 1.6;
+  overflow-x: auto;
+  margin: 12px 0;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+.code-block .comment {
+  color: rgba(255,255,255,0.35);
+}
+.code-inline {
+  background: var(--fill);
+  padding: 2px 8px;
+  border-radius: 5px;
+  font-family: "SF Mono", ui-monospace, SFMono-Regular, Consolas, monospace;
+  font-size: 13px;
+}
+
+/* Alert */
+.alert {
+  border-radius: 8px;
+  padding: 12px 16px;
+  font-size: 14px;
+  margin: 12px 0;
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+}
+.alert-info {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.alert-warn {
+  background: var(--caution-soft);
+  color: var(--caution);
+}
+.alert-error {
+  background: var(--negative-soft);
+  color: var(--negative);
+}
+.alert-success {
+  background: var(--success-soft);
+  color: var(--success);
+}
+.alert svg {
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+/* List */
+ol, ul {
+  padding-left: 24px;
+  margin: 8px 0 16px;
+}
+li {
+  font-size: 15px;
+  margin-bottom: 8px;
+}
+li strong {
+  font-weight: 500;
+}
+
+/* Table of contents */
+.toc {
+  list-style: none;
+  padding: 0;
+  counter-reset: toc;
+}
+.toc li {
+  counter-increment: toc;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--sep);
+  font-size: 15px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.toc li::before {
+  content: counter(toc);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-size: 12px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+.toc-time {
+  font-size: 12px;
+  color: var(--label-3);
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+/* Checklist */
+.checklist {
+  list-style: none;
+  padding: 0;
+}
+.checklist li {
+  padding: 8px 0 8px 28px;
+  position: relative;
+  border-bottom: 1px solid var(--sep);
+}
+.checklist li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 10px;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--sep-opaque, #D6D6D8);
+  border-radius: 4px;
+}
+
+/* Flow diagram */
+.flow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  margin: 24px 0;
+}
+.flow-item {
+  background: var(--surface);
+  border-radius: 8px;
+  padding: 12px 24px;
+  box-shadow: var(--sh-card);
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+  width: 100%;
+  max-width: 360px;
+}
+.flow-item.active {
+  background: var(--accent);
+  color: #fff;
+}
+.flow-arrow {
+  color: var(--label-3);
+  font-size: 20px;
+  line-height: 1;
+  padding: 4px 0;
+}
+
+/* Badge */
+.badge {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 5px;
+}
+.badge-accent {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.badge-neutral {
+  background: var(--fill);
+  color: var(--label-2);
+}
+
+/* Image placeholder */
+.screenshot {
+  background: var(--fill);
+  border-radius: 8px;
+  padding: 32px;
+  text-align: center;
+  color: var(--label-3);
+  font-size: 12px;
+  font-weight: 500;
+  margin: 12px 0;
+  border: 1px dashed var(--sep);
+}
+
+/* Summary table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+}
+th {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--label-2);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  text-align: left;
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--sep);
+}
+td {
+  font-size: 14px;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--sep);
+}
+</style>
+</head>
+<body>
+
+<!-- ==================== COVER ==================== -->
+<div class="container">
+<div class="cover">
+  <div class="cover-label">Setup Guide</div>
+  <h1>Claude Code<br>Windows セットアップガイド</h1>
+  <p class="cover-sub">ゼロからAIアシスタントを使い始めるまでの完全手順書</p>
+  <p class="cover-meta">Version 1.0 / 2026-05-09 / 所要時間 約30-45分</p>
+</div>
+
+<!-- ==================== TOC ==================== -->
+<div class="card">
+  <h3 style="margin-top:0">目次</h3>
+  <ul class="toc">
+    <li>事前に必要なもの<span class="toc-time">確認のみ</span></li>
+    <li>Claudeアカウント作成<span class="toc-time">5分</span></li>
+    <li>Git for Windows インストール<span class="toc-time">5分</span></li>
+    <li>Claude Code インストール<span class="toc-time">3分</span></li>
+    <li>ワークスペースの準備<span class="toc-time">3分</span></li>
+    <li>初回セットアップ（/setup）<span class="toc-time">15-25分</span></li>
+    <li>動作確認<span class="toc-time">3分</span></li>
+    <li>困ったときは<span class="toc-time">---</span></li>
+  </ul>
+</div>
+
+<!-- ==================== FLOW ==================== -->
+<h2>全体の流れ</h2>
+<div class="flow">
+  <div class="flow-item">アカウント作成 + 支払い設定</div>
+  <div class="flow-arrow">&#8595;</div>
+  <div class="flow-item">Git for Windows をインストール</div>
+  <div class="flow-arrow">&#8595;</div>
+  <div class="flow-item">Claude Code をインストール</div>
+  <div class="flow-arrow">&#8595;</div>
+  <div class="flow-item">ワークスペースをダウンロード</div>
+  <div class="flow-arrow">&#8595;</div>
+  <div class="flow-item active">/setup を実行 → すぐ使い始められる</div>
+</div>
+
+<!-- ==================== STEP 1 ==================== -->
+<div class="page-break"></div>
+<h2>1. 事前に必要なもの</h2>
+
+<div class="card">
+  <ul class="checklist">
+    <li>Windows 10（バージョン1809以降）または Windows 11 のパソコン</li>
+    <li>インターネット接続</li>
+    <li>支払い用のクレジットカードまたはデビットカード</li>
+    <li>Googleアカウント（Gmail）</li>
+  </ul>
+</div>
+
+<div class="alert alert-info">
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+  <span>Windowsのバージョン確認方法: キーボードの <span class="code-inline">Windows + I</span> を押す →「システム」→「バージョン情報」</span>
+</div>
+
+
+<!-- ==================== STEP 2 ==================== -->
+<h2>2. Claude アカウント作成</h2>
+
+<div class="step">
+  <div class="step-number">1</div>
+  <div class="step-title">Anthropic アカウントを作成</div>
+  <div class="step-time">所要時間: 約3分</div>
+
+  <div class="substep">
+    <div class="substep-label">2-1</div>
+    <p>ブラウザ（Chrome推奨）で以下のページを開きます:</p>
+    <div class="code-block">https://claude.ai</div>
+  </div>
+
+  <div class="substep">
+    <div class="substep-label">2-2</div>
+    <p>「Sign up」（サインアップ）をクリック</p>
+    <p>Googleアカウントで登録するのが最も簡単です。「Continue with Google」をクリックして、お使いのGmailアカウントを選択してください。</p>
+  </div>
+
+  <div class="substep">
+    <div class="substep-label">2-3</div>
+    <p>登録が完了すると、チャット画面が表示されます。これで無料アカウントの作成は完了です。</p>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-number">2</div>
+  <div class="step-title">Pro プランにアップグレード</div>
+  <div class="step-time">所要時間: 約2分</div>
+
+  <div class="substep">
+    <div class="substep-label">2-4</div>
+    <p>画面左下の自分のアカウント名をクリック →「Settings」→「Billing」→「Upgrade to Pro」</p>
+  </div>
+
+  <div class="substep">
+    <div class="substep-label">2-5</div>
+    <p>クレジットカード情報を入力します。</p>
+    <p>料金: <strong>月額 $20（約3,000円）</strong></p>
+  </div>
+
+  <div class="alert alert-warn">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg>
+    <span>Claude Code を使うには Pro プラン以上が必要です。無料プランや Team Standard プランでは使えません。</span>
+  </div>
+</div>
+
+
+<!-- ==================== STEP 3 ==================== -->
+<div class="page-break"></div>
+<h2>3. Git for Windows インストール</h2>
+
+<p>Claude Code が内部で使うツールです。これがないと正しく動きません。</p>
+
+<div class="step">
+  <div class="step-number">3</div>
+  <div class="step-title">Git for Windows をダウンロード・インストール</div>
+  <div class="step-time">所要時間: 約5分</div>
+
+  <div class="substep">
+    <div class="substep-label">3-1</div>
+    <p>ブラウザで以下のページを開きます:</p>
+    <div class="code-block">https://gitforwindows.org</div>
+  </div>
+
+  <div class="substep">
+    <div class="substep-label">3-2</div>
+    <p>「Download」ボタンをクリックして、インストーラーをダウンロードします。</p>
+  </div>
+
+  <div class="substep">
+    <div class="substep-label">3-3</div>
+    <p>ダウンロードしたファイル（<span class="code-inline">Git-X.XX.X-64-bit.exe</span>）をダブルクリックして実行します。</p>
+  </div>
+
+  <div class="substep">
+    <div class="substep-label">3-4</div>
+    <p>インストーラーが起動します。<strong>すべてデフォルト（初期設定）のまま「Next」を押し続けて</strong>ください。設定を変える必要はありません。</p>
+    <p>最後に「Install」→「Finish」で完了です。</p>
+  </div>
+
+  <div class="alert alert-info">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+    <span>途中で色々な設定画面が出ますが、全て初期設定のままで大丈夫です。変更しないでください。</span>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-number">4</div>
+  <div class="step-title">インストールの確認</div>
+  <div class="step-time">所要時間: 30秒</div>
+
+  <div class="substep">
+    <div class="substep-label">3-5</div>
+    <p>キーボードの <span class="code-inline">Windows</span> キーを押して「PowerShell」と入力し、<strong>「Windows PowerShell」</strong>をクリックして開きます。</p>
+  </div>
+
+  <div class="substep">
+    <div class="substep-label">3-6</div>
+    <p>以下を入力して Enter を押します:</p>
+    <div class="code-block">git --version</div>
+    <p>以下のように表示されれば成功です（数字は多少異なっていてOK）:</p>
+    <div class="code-block"><span class="comment">git version 2.47.1.windows.1</span></div>
+  </div>
+
+  <div class="alert alert-error">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M15 9l-6 6M9 9l6 6"/></svg>
+    <span>「'git' は、内部コマンドまたは...」と表示された場合、パソコンを再起動してからもう一度試してください。</span>
+  </div>
+</div>
+
+
+<!-- ==================== STEP 4 ==================== -->
+<div class="page-break"></div>
+<h2>4. Claude Code インストール</h2>
+
+<div class="step">
+  <div class="step-number">5</div>
+  <div class="step-title">Claude Code をインストール</div>
+  <div class="step-time">所要時間: 約3分</div>
+
+  <div class="substep">
+    <div class="substep-label">4-1</div>
+    <p>PowerShell を開きます（前のステップで開いたままならそのまま使えます）。</p>
+  </div>
+
+  <div class="substep">
+    <div class="substep-label">4-2</div>
+    <p>以下のコマンドをコピーして、PowerShell に貼り付けて Enter を押します:</p>
+    <div class="code-block">irm https://claude.ai/install.ps1 | iex</div>
+  </div>
+
+  <div class="alert alert-info">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+    <span><strong>コピー&amp;ペーストの方法:</strong> 上のコマンドをマウスで選択 → <span class="code-inline">Ctrl + C</span> でコピー → PowerShell画面上で右クリック（自動で貼り付けられます）→ <span class="code-inline">Enter</span></span>
+  </div>
+
+  <div class="substep">
+    <div class="substep-label">4-3</div>
+    <p>インストールが自動で進みます。完了したら、PowerShell を<strong>一度閉じて、新しく開き直して</strong>ください。</p>
+  </div>
+
+  <div class="substep">
+    <div class="substep-label">4-4</div>
+    <p>新しいPowerShellで以下を入力して確認します:</p>
+    <div class="code-block">claude --version</div>
+    <p>バージョン番号が表示されれば成功です。</p>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-number">6</div>
+  <div class="step-title">Claude Code にログイン</div>
+  <div class="step-time">所要時間: 1分</div>
+
+  <div class="substep">
+    <div class="substep-label">4-5</div>
+    <p>PowerShell で以下を入力します:</p>
+    <div class="code-block">claude</div>
+  </div>
+
+  <div class="substep">
+    <div class="substep-label">4-6</div>
+    <p>初回はログインを求められます。ブラウザが自動で開くので、先ほど作成した Claude アカウントでログインしてください。</p>
+    <p>「Authorize」（許可する）をクリックすると、PowerShell に戻ります。</p>
+  </div>
+
+  <div class="substep">
+    <div class="substep-label">4-7</div>
+    <p>ログイン後、チュートリアル画面が出る場合があります。<span class="code-inline">Enter</span> で進めて、最後に <span class="code-inline">/exit</span> と入力して一度終了してください。</p>
+  </div>
+</div>
+
+
+<!-- ==================== STEP 5 ==================== -->
+<div class="page-break"></div>
+<h2>5. ワークスペースの準備</h2>
+
+<div class="step">
+  <div class="step-number">7</div>
+  <div class="step-title">ワークスペースをダウンロード</div>
+  <div class="step-time">所要時間: 約3分</div>
+
+  <div class="substep">
+    <div class="substep-label">5-1</div>
+    <p>PowerShell で以下のコマンドを<strong>1行ずつ</strong>入力して Enter を押します:</p>
+    <div class="code-block"><span class="comment"># デスクトップに移動</span>
+cd ~/Desktop
+
+<span class="comment"># ワークスペースをダウンロード</span>
+git clone https://github.com/kentamizushina/ai-workspace-template.git my_workspace</div>
+  </div>
+
+  <div class="alert alert-info">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+    <span><span class="code-inline">my_workspace</span> の部分は好きな名前に変えてOKです。日本語は避けてください。</span>
+  </div>
+
+  <div class="substep">
+    <div class="substep-label">5-2</div>
+    <p>ダウンロードしたフォルダに移動します:</p>
+    <div class="code-block">cd my_workspace</div>
+  </div>
+
+  <div class="substep">
+    <div class="substep-label">5-3</div>
+    <p>デスクトップに「my_workspace」というフォルダが作成されていれば成功です。</p>
+  </div>
+</div>
+
+
+<!-- ==================== STEP 6 ==================== -->
+<h2>6. 初回セットアップ（/setup）</h2>
+
+<p>ここからは Claude Code が対話形式でガイドしてくれます。画面の指示に従うだけで完了します。</p>
+
+<div class="step">
+  <div class="step-number">8</div>
+  <div class="step-title">Claude Code を起動して /setup を実行</div>
+  <div class="step-time">所要時間: 15-25分</div>
+
+  <div class="substep">
+    <div class="substep-label">6-1</div>
+    <p>PowerShell で、ワークスペースの中にいることを確認してから:</p>
+    <div class="code-block">claude</div>
+    <p>Claude Code が起動し、入力待ちの画面になります。</p>
+  </div>
+
+  <div class="substep">
+    <div class="substep-label">6-2</div>
+    <p>以下を入力して Enter を押します:</p>
+    <div class="code-block">/setup</div>
+  </div>
+
+  <div class="substep">
+    <div class="substep-label">6-3 名前と役職</div>
+    <p>Claude が2つだけ質問します:</p>
+    <ul>
+      <li>「お名前を教えてください」→ 名前を入力</li>
+      <li>「役職を教えてください」→ 例:「事務」「設計」</li>
+    </ul>
+  </div>
+
+  <div class="substep">
+    <div class="substep-label">6-4 API接続</div>
+    <p>Claude が1つずつ、外部サービスとの接続を案内します。画面に表示される手順に沿って進めてください。</p>
+    <p>接続するサービス:</p>
+    <table>
+      <thead>
+        <tr><th>No.</th><th>サービス</th><th>用途</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td>Google (Gmail/Calendar/Drive/Sheets)</td><td>メール・予定・ファイル管理</td></tr>
+        <tr><td>2</td><td>Gemini</td><td>AI文章生成・PDF読解</td></tr>
+        <tr><td>3</td><td>LINE Messaging API</td><td>顧客連絡</td></tr>
+        <tr><td>4</td><td>OpenAI</td><td>AI補助</td></tr>
+        <tr><td>5</td><td>Flux Pro</td><td>建築パース画像生成</td></tr>
+        <tr><td>6</td><td>不動産情報ライブラリ</td><td>物件・地域データ</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="alert alert-info">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+    <span>各サービスの設定方法は Claude が画面に詳しく表示します。ブラウザで設定ページを開いて、APIキーをコピーして貼り付けるだけです。</span>
+  </div>
+
+  <div class="alert alert-warn">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg>
+    <span>全てのサービスを一度に接続する必要はありません。後から接続を追加できます。まずは Google だけでも使い始められます。</span>
+  </div>
+</div>
+
+
+<!-- ==================== STEP 7 ==================== -->
+<div class="page-break"></div>
+<h2>7. 動作確認</h2>
+
+<div class="step">
+  <div class="step-number">9</div>
+  <div class="step-title">正しく動くか確認する</div>
+  <div class="step-time">所要時間: 約3分</div>
+
+  <div class="substep">
+    <div class="substep-label">7-1</div>
+    <p>/setup が完了すると、Claude が自動でテストを行い、以下のような結果が表示されます:</p>
+    <div class="code-block">SETUP COMPLETE
+==============
+OS: Windows
+User: [あなたの名前] ([役職])
+APIs: X/9 connected
+Hooks: OK
+Rules: OK
+
+Ready to use. Type your first request.</div>
+  </div>
+
+  <div class="substep">
+    <div class="substep-label">7-2</div>
+    <p>試しに何か聞いてみましょう:</p>
+    <div class="code-block">今日のGmailの未読メールを3件教えて</div>
+    <p>Google接続が完了していれば、メールの内容が表示されます。</p>
+  </div>
+
+  <div class="alert alert-success">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+    <span>セットアップ完了です。これで Claude Code が使えるようになりました。</span>
+  </div>
+</div>
+
+
+<!-- ==================== DAILY USE ==================== -->
+<h2>毎日の使い方</h2>
+
+<div class="card">
+  <h4 style="margin-top:0">Claude Code の起動方法（毎回）</h4>
+  <ol>
+    <li>キーボードの <span class="code-inline">Windows</span> キーを押して「PowerShell」と入力 → 開く</li>
+    <li>以下を入力:
+      <div class="code-block">cd ~/Desktop/my_workspace
+claude</div>
+    </li>
+    <li>あとは日本語で指示するだけ</li>
+  </ol>
+</div>
+
+<div class="card">
+  <h4 style="margin-top:0">終了方法</h4>
+  <div class="code-block">/exit</div>
+  <p>または <span class="code-inline">Ctrl + C</span> を2回押す</p>
+</div>
+
+<div class="card">
+  <h4 style="margin-top:0">できることの例</h4>
+  <table>
+    <thead>
+      <tr><th>やりたいこと</th><th>入力例</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>メール確認</td><td>「今日届いたメールをまとめて」</td></tr>
+      <tr><td>予定確認</td><td>「来週の予定を教えて」</td></tr>
+      <tr><td>書類作成</td><td>「見積書のテンプレートを作って」</td></tr>
+      <tr><td>データ整理</td><td>「このExcelファイルを整理して」</td></tr>
+      <tr><td>建築計算</td><td>「この間取りの面積を計算して」</td></tr>
+    </tbody>
+  </table>
+</div>
+
+
+<!-- ==================== TROUBLE ==================== -->
+<div class="page-break"></div>
+<h2>8. 困ったときは</h2>
+
+<div class="card">
+  <h4 style="margin-top:0">よくあるトラブルと対処法</h4>
+  <table>
+    <thead>
+      <tr><th>症状</th><th>対処法</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>「'claude' は認識されていません」</td>
+        <td>PowerShellを閉じて開き直す。それでもダメならパソコンを再起動</td>
+      </tr>
+      <tr>
+        <td>「'git' は認識されていません」</td>
+        <td>Git for Windows を再インストール後、パソコンを再起動</td>
+      </tr>
+      <tr>
+        <td>ログイン画面が出ない</td>
+        <td>ブラウザで claude.ai にログインしてから、もう一度 <span class="code-inline">claude</span> を実行</td>
+      </tr>
+      <tr>
+        <td>API接続でエラーが出る</td>
+        <td>Claude に「エラーが出ました」と伝えれば、自動で診断・修復を試みます</td>
+      </tr>
+      <tr>
+        <td>動きが遅い / 固まった</td>
+        <td><span class="code-inline">Ctrl + C</span> で中断 → もう一度 <span class="code-inline">claude</span> で起動</td>
+      </tr>
+      <tr>
+        <td>何を聞けばいいかわからない</td>
+        <td>「何ができるか教えて」と入力すればOK</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="card">
+  <h4 style="margin-top:0">それでも解決しない場合</h4>
+  <p>以下の情報を添えて、担当者に連絡してください:</p>
+  <ul>
+    <li>エラーメッセージ（画面のスクリーンショット）</li>
+    <li>どのステップで止まったか（この手順書のステップ番号）</li>
+    <li>パソコンの機種名（わかれば）</li>
+  </ul>
+</div>
+
+
+<!-- ==================== APPENDIX ==================== -->
+<div class="page-break"></div>
+<h2>付録: 料金について</h2>
+
+<div class="card">
+  <table>
+    <thead>
+      <tr><th>項目</th><th>月額</th><th>備考</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Claude Pro</td>
+        <td>$20（約3,000円）</td>
+        <td>必須。1人1アカウント</td>
+      </tr>
+      <tr>
+        <td>Google API</td>
+        <td>無料</td>
+        <td>無料枠で十分</td>
+      </tr>
+      <tr>
+        <td>LINE Messaging API</td>
+        <td>無料</td>
+        <td>無料プランで開始</td>
+      </tr>
+      <tr>
+        <td>OpenAI API</td>
+        <td>従量制</td>
+        <td>月 $1-5 程度の見込み</td>
+      </tr>
+      <tr>
+        <td>Flux Pro</td>
+        <td>従量制</td>
+        <td>画像1枚 $0.04。月数百円程度</td>
+      </tr>
+      <tr>
+        <td>不動産情報ライブラリ</td>
+        <td>無料</td>
+        <td>国土交通省提供</td>
+      </tr>
+    </tbody>
+  </table>
+  <p style="margin-top:12px; font-size:14px; color:var(--label-2)">合計目安: 1人あたり月額 約3,500-4,000円</p>
+</div>
+
+<div class="card">
+  <h4 style="margin-top:0">使用量が足りなくなったら</h4>
+  <p>Claude の応答が遅くなったり「制限に達しました」と表示された場合は、Pro ($20) から Max ($100) にアップグレードできます。まずは Pro で始めて、必要に応じて検討してください。</p>
+</div>
+
+<!-- Footer -->
+<div style="text-align:center; padding:48px 0 24px; color:var(--label-3); font-size:11px;">
+  AI Agency OS / Setup Guide v1.0 / 2026-05-09
+</div>
+
+</div><!-- /.container -->
+</body>
+</html>
