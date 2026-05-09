@@ -392,7 +392,7 @@ td {
     <li>Claudeアカウント作成<span class="toc-time">5分</span></li>
     <li>Git インストール（Windowsのみ）<span class="toc-time">5分</span></li>
     <li>Claude Code インストール<span class="toc-time">3分（既に入っている場合はスキップ）</span></li>
-    <li>ワークスペースの準備<span class="toc-time">3分</span></li>
+    <li>ワークスペースの準備 + APIキー配置<span class="toc-time">7分</span></li>
     <li>初回セットアップ（/setup）<span class="toc-time">15-25分</span></li>
     <li>動作確認<span class="toc-time">3分</span></li>
     <li>ショートカット作成<span class="toc-time">1分</span></li>
@@ -612,33 +612,74 @@ td {
 
 <div class="step">
   <div class="step-number">7</div>
-  <div class="step-title">ワークスペースをダウンロード</div>
+  <div class="step-title">GitHub アカウントの準備</div>
   <div class="step-time">所要時間: 約3分</div>
 
   <div class="substep">
     <div class="substep-label">5-1</div>
+    <p>ワークスペースは社内専用のため、GitHubアカウントが必要です。</p>
+    <p>アカウントがない場合は以下から無料で作成してください:</p>
+    <p><a href="https://github.com/signup" target="_blank" style="color:var(--accent); font-weight:500;">https://github.com/signup</a></p>
+  </div>
+
+  <div class="substep">
+    <div class="substep-label">5-2</div>
+    <p>アカウントを作成したら、<strong>水信にGitHubのユーザー名を伝えてください。</strong>アクセス権を付与します。</p>
+  </div>
+
+  <div class="alert alert-warn">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg>
+    <span>水信からアクセス権の付与が完了するまで、次のステップには進めません。招待メールが届いたら「Accept invitation」をクリックしてください。</span>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-number">8</div>
+  <div class="step-title">ワークスペースをダウンロード</div>
+  <div class="step-time">所要時間: 約3分</div>
+
+  <div class="substep">
+    <div class="substep-label">5-3</div>
     <p>ターミナル（Mac）/ PowerShell（Windows）で以下のコマンドを<strong>1行ずつ</strong>入力して Enter を押します:</p>
     <div class="code-block"><span class="comment"># デスクトップに移動</span>
 cd ~/Desktop
 
 <span class="comment"># ワークスペースをダウンロード</span>
 git clone https://github.com/kentamizushina/ai-workspace-template.git my_workspace</div>
-  </div>
-
-  <div class="alert alert-info">
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
-    <span><span class="code-inline">my_workspace</span> の部分は好きな名前に変えてOKです。日本語は避けてください。</span>
+    <p style="font-size:13px; color:var(--label-2)">GitHubのユーザー名とパスワード（またはトークン）を求められたら入力してください。</p>
   </div>
 
   <div class="substep">
-    <div class="substep-label">5-2</div>
+    <div class="substep-label">5-4</div>
     <p>ダウンロードしたフォルダに移動します:</p>
     <div class="code-block">cd my_workspace</div>
   </div>
 
   <div class="substep">
-    <div class="substep-label">5-3</div>
+    <div class="substep-label">5-5</div>
     <p>デスクトップに「my_workspace」というフォルダが作成されていれば成功です。</p>
+  </div>
+</div>
+
+<div class="step">
+  <div class="step-number">9</div>
+  <div class="step-title">APIキーファイルを配置</div>
+  <div class="step-time">所要時間: 1分</div>
+
+  <div class="substep">
+    <div class="substep-label">5-6</div>
+    <p>水信から共有された Google Drive のリンクを開き、<span class="code-inline">.env</span> ファイルをダウンロードしてください。</p>
+  </div>
+
+  <div class="substep">
+    <div class="substep-label">5-7</div>
+    <p>ダウンロードした <span class="code-inline">.env</span> ファイルを、デスクトップの <span class="code-inline">my_workspace</span> フォルダの中にコピーしてください。</p>
+    <p style="font-size:13px; color:var(--label-2)">Windows: エクスプローラーでドラッグ&amp;ドロップ / Mac: Finderでドラッグ&amp;ドロップ</p>
+  </div>
+
+  <div class="alert alert-warn">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/><path d="M12 9v4M12 17h.01"/></svg>
+    <span>.env ファイルにはAPIキーが含まれています。他の人に共有したり、メールやLINEに貼り付けたりしないでください。</span>
   </div>
 </div>
 
@@ -649,7 +690,7 @@ git clone https://github.com/kentamizushina/ai-workspace-template.git my_workspa
 <p>ここからは Claude Code が対話形式でガイドしてくれます。画面の指示に従うだけで完了します。</p>
 
 <div class="step">
-  <div class="step-number">8</div>
+  <div class="step-number">10</div>
   <div class="step-title">Claude Code を起動して /setup を実行</div>
   <div class="step-time">所要時間: 15-25分</div>
 
@@ -711,7 +752,7 @@ git clone https://github.com/kentamizushina/ai-workspace-template.git my_workspa
 <h2>7. 動作確認</h2>
 
 <div class="step">
-  <div class="step-number">9</div>
+  <div class="step-number">11</div>
   <div class="step-title">正しく動くか確認する</div>
   <div class="step-time">所要時間: 約3分</div>
 
@@ -749,7 +790,7 @@ Ready to use. Type your first request.</div>
 <p>毎回 PowerShell を開いてコマンドを打つ必要がないように、デスクトップにショートカットを作ります。</p>
 
 <div class="step">
-  <div class="step-number">10</div>
+  <div class="step-number">12</div>
   <div class="step-title">デスクトップショートカットの作成</div>
   <div class="step-time">所要時間: 1分（初回のみ）</div>
 
