@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>API登録チェックリスト（水信用）</title>
+<style>
+:root {
+  --accent: #4A90B8;
+  --accent-soft: rgba(74,144,184,0.08);
+  --label: #1D1D1F;
+  --label-2: rgba(60,60,67,0.55);
+  --label-3: rgba(60,60,67,0.30);
+  --bg: #F5F5F7;
+  --surface: #FFFFFF;
+  --sep: rgba(60,60,67,0.10);
+  --fill: rgba(120,120,128,0.08);
+  --sh-card: 0 1px 4px rgba(0,0,0,0.05), 0 0.5px 1.5px rgba(0,0,0,0.03);
+  --success: #5AB77B;
+  --success-soft: rgba(90,183,123,0.08);
+  --caution: #D4944A;
+  --caution-soft: rgba(212,148,74,0.08);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Noto Sans JP", sans-serif;
+  color: var(--label);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.85;
+}
+@media print {
+  body { background: #fff; }
+  .card { box-shadow: none; border: 1px solid var(--sep); }
+}
+@page { size: A4; margin: 20mm 18mm; }
+.container { max-width: 680px; margin: 0 auto; padding: 48px 24px; }
+
+.cover { text-align: center; padding: 48px 24px 40px; }
+.cover-label { font-size: 12px; font-weight: 500; color: var(--accent); letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 12px; }
+.cover h1 { font-size: 28px; font-weight: 600; letter-spacing: -0.5px; line-height: 1.35; margin-bottom: 8px; }
+.cover-sub { font-size: 15px; color: var(--label-2); margin-bottom: 24px; }
+.cover-meta { font-size: 12px; color: var(--label-3); }
+
+h2 { font-size: 20px; font-weight: 600; margin: 40px 0 16px; padding-bottom: 8px; border-bottom: 1px solid var(--sep); }
+h3 { font-size: 17px; font-weight: 600; margin: 24px 0 8px; }
+p { font-size: 15px; margin-bottom: 12px; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.card { background: var(--surface); border-radius: 12px; padding: 20px 24px; box-shadow: var(--sh-card); margin: 16px 0; }
+
+.service { background: var(--surface); border-radius: 12px; padding: 20px 24px; box-shadow: var(--sh-card); margin: 20px 0; }
+.service-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.service-name { font-size: 17px; font-weight: 600; }
+.service-badge { font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 5px; }
+.badge-share { background: var(--accent-soft); color: var(--accent); }
+.badge-individual { background: var(--fill); color: var(--label-2); }
+.badge-subscription { background: var(--caution-soft); color: var(--caution); }
+.service-desc { font-size: 14px; color: var(--label-2); margin-bottom: 12px; }
+.service-link { display: block; font-size: 14px; margin-bottom: 4px; }
+.service-env { font-size: 12px; font-weight: 500; color: var(--label-2); font-family: "SF Mono", ui-monospace, Consolas, monospace; margin-top: 8px; padding: 8px 12px; background: var(--fill); border-radius: 6px; }
+
+.alert { border-radius: 8px; padding: 12px 16px; font-size: 14px; margin: 12px 0; display: flex; gap: 10px; align-items: flex-start; }
+.alert-info { background: var(--accent-soft); color: var(--accent); }
+.alert-warn { background: var(--caution-soft); color: var(--caution); }
+.alert svg { flex-shrink: 0; margin-top: 2px; }
+
+table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+th { font-size: 11px; font-weight: 600; color: var(--label-2); text-transform: uppercase; letter-spacing: 0.06em; text-align: left; padding: 8px 12px; border-bottom: 1px solid var(--sep); }
+td { font-size: 14px; padding: 10px 12px; border-bottom: 1px solid var(--sep); }
+td.price { font-weight: 500; text-align: right; white-space: nowrap; }
+
+.checklist { list-style: none; padding: 0; }
+.checklist li { padding: 8px 0 8px 28px; position: relative; border-bottom: 1px solid var(--sep); font-size: 14px; }
+.checklist li::before { content: ""; position: absolute; left: 0; top: 10px; width: 18px; height: 18px; border: 2px solid var(--sep-opaque, #D6D6D8); border-radius: 4px; }
+
+.total-row { font-weight: 600; background: var(--fill); }
+.total-row td { font-weight: 600; }
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="cover">
+  <div class="cover-label">Admin Checklist</div>
+  <h1>API登録チェックリスト</h1>
+  <p class="cover-sub">水信が一括登録 → .envファイルで配布</p>
+  <p class="cover-meta">2026-05-09 / クレジットカード: 社長（個人）名義</p>
+</div>
+
+<!-- ==================== 共有API ==================== -->
+<h2>共有API（水信が登録 → 全員で共有）</h2>
+
+<div class="service">
+  <div class="service-header">
+    <span class="service-name">1. Google Cloud（Gemini API）</span>
+    <span class="service-badge badge-share">共有</span>
+  </div>
+  <p class="service-desc">Gemini AI（文章生成・PDF読解）のAPIキー。GmailなどのOAuthは各自登録。</p>
+  <a class="service-link" href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com/apikey</a>
+  <p style="font-size:13px; color:var(--label-2)">手順: Google AI Studio → APIキー作成 → コピー</p>
+  <div class="service-env">GEMINI_API_KEY=xxxxxxxxxx</div>
+</div>
+
+<div class="service">
+  <div class="service-header">
+    <span class="service-name">2. LINE Messaging API</span>
+    <span class="service-badge badge-share">共有</span>
+  </div>
+  <p class="service-desc">LINE公式アカウントのBot。1チャネルを全員で共有。</p>
+  <a class="service-link" href="https://developers.line.biz/console/" target="_blank">developers.line.biz/console</a>
+  <p style="font-size:13px; color:var(--label-2)">手順: プロバイダー → チャネル → Messaging API → チャネルアクセストークン発行</p>
+  <div class="service-env">LINE_CHANNEL_ACCESS_TOKEN=xxxxxxxxxx
+LINE_CHANNEL_SECRET=xxxxxxxxxx</div>
+</div>
+
+<div class="service">
+  <div class="service-header">
+    <span class="service-name">3. OpenAI API</span>
+    <span class="service-badge badge-share">共有</span>
+  </div>
+  <p class="service-desc">AI補助（チャット）+ GPT Image 1（汎用画像生成）。1つのAPIキーで全員使える。</p>
+  <a class="service-link" href="https://platform.openai.com/api-keys" target="_blank">platform.openai.com/api-keys</a>
+  <p style="font-size:13px; color:var(--label-2)">手順: API keys → Create new secret key → コピー</p>
+  <div class="service-env">OPENAI_API_KEY=sk-xxxxxxxxxx</div>
+</div>
+
+<div class="service">
+  <div class="service-header">
+    <span class="service-name">4. mnml.ai API</span>
+    <span class="service-badge badge-share">共有</span>
+  </div>
+  <p class="service-desc">手書きスケッチ → フォトリアル建築パース変換。建築特化AI。</p>
+  <a class="service-link" href="https://mnml.ai/" target="_blank">mnml.ai</a>
+  <a class="service-link" href="https://mnmlai.dev/" target="_blank">mnmlai.dev（API ドキュメント）</a>
+  <p style="font-size:13px; color:var(--label-2)">手順: アカウント作成 → クレジット購入 → Settings → API Key</p>
+  <div class="service-env">MNML_API_KEY=xxxxxxxxxx</div>
+</div>
+
+<div class="service">
+  <div class="service-header">
+    <span class="service-name">5. 不動産情報ライブラリ API</span>
+    <span class="service-badge badge-share">共有</span>
+  </div>
+  <p class="service-desc">国土交通省提供の物件・地域データ。無料。</p>
+  <a class="service-link" href="https://www.reinfolib.mlit.go.jp/" target="_blank">reinfolib.mlit.go.jp</a>
+  <p style="font-size:13px; color:var(--label-2)">手順: 利用者登録 → APIキー発行</p>
+  <div class="service-env">REINFOLIB_API_KEY=xxxxxxxxxx</div>
+</div>
+
+<div class="service">
+  <div class="service-header">
+    <span class="service-name">6. Anthropic API</span>
+    <span class="service-badge badge-share">共有</span>
+  </div>
+  <p class="service-desc">Claude APIの直接呼び出し。自動化スキル・バッチ処理に使用。</p>
+  <a class="service-link" href="https://console.anthropic.com/settings/keys" target="_blank">console.anthropic.com/settings/keys</a>
+  <p style="font-size:13px; color:var(--label-2)">手順: Anthropic Console → API Keys → Create Key</p>
+  <div class="service-env">ANTHROPIC_API_KEY=sk-ant-xxxxxxxxxx</div>
+</div>
+
+<div class="service">
+  <div class="service-header">
+    <span class="service-name">7. Hugging Face</span>
+    <span class="service-badge badge-share">共有</span>
+  </div>
+  <p class="service-desc">Whisper（文字起こし）等のAIモデル。無料枠あり。</p>
+  <a class="service-link" href="https://huggingface.co/settings/tokens" target="_blank">huggingface.co/settings/tokens</a>
+  <p style="font-size:13px; color:var(--label-2)">手順: Settings → Access Tokens → New token（read権限）</p>
+  <div class="service-env">HUGGINGFACE_TOKEN=hf_xxxxxxxxxx</div>
+</div>
+
+<div class="service">
+  <div class="service-header">
+    <span class="service-name">8. Ideogram API</span>
+    <span class="service-badge badge-share">共有</span>
+  </div>
+  <p class="service-desc">AI画像生成（テキスト・ロゴに強い）。Plus以上のサブスクが必要。</p>
+  <a class="service-link" href="https://ideogram.ai/manage-api" target="_blank">ideogram.ai/manage-api</a>
+  <a class="service-link" href="https://ideogram.ai/pricing" target="_blank">ideogram.ai/pricing（プラン選択）</a>
+  <p style="font-size:13px; color:var(--label-2)">手順: Plus($15/月)以上に加入 → API Settings → APIキー生成</p>
+  <div class="service-env">IDEOGRAM_API_KEY=xxxxxxxxxx</div>
+</div>
+
+<div class="service">
+  <div class="service-header">
+    <span class="service-name">9. Kling AI API</span>
+    <span class="service-badge badge-share">共有</span>
+  </div>
+  <p class="service-desc">AI動画生成。テキストや画像から短尺動画を生成。</p>
+  <a class="service-link" href="https://kling.ai/dev" target="_blank">kling.ai/dev</a>
+  <a class="service-link" href="https://kling.ai/pricing" target="_blank">kling.ai/pricing（プラン選択）</a>
+  <p style="font-size:13px; color:var(--label-2)">手順: Developer Portal → APIキー生成。Standard($6.99/月)以上推奨。</p>
+  <div class="service-env">KLING_API_KEY=xxxxxxxxxx</div>
+</div>
+
+<!-- ==================== サブスク ==================== -->
+<h2>サブスクリプション（水信が契約）</h2>
+
+<div class="service">
+  <div class="service-header">
+    <span class="service-name">6. Canva ビジネス</span>
+    <span class="service-badge badge-subscription">サブスク</span>
+  </div>
+  <p class="service-desc">デザインツール。チームメンバーをメールで招待可能。</p>
+  <a class="service-link" href="https://www.canva.com/ja_jp/pricing/" target="_blank">canva.com/pricing</a>
+  <p style="font-size:13px; color:var(--label-2)">手順: 既存アカウント → チーム設定 → メンバー招待（メールアドレスで追加）</p>
+  <div class="alert alert-info">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+    <span>現在のプラン: Canvaビジネス ¥18,800/年。追加メンバーは1人あたり約¥18,800/年。</span>
+  </div>
+</div>
+
+<div class="service">
+  <div class="service-header">
+    <span class="service-name">7. Adobe Creative Cloud Pro</span>
+    <span class="service-badge badge-individual">水信のみ</span>
+  </div>
+  <p class="service-desc">Photoshop / Illustrator / Premiere Pro / After Effects 他20種以上。水信専用。</p>
+  <a class="service-link" href="https://www.adobe.com/jp/creativecloud/plans.html" target="_blank">adobe.com/jp/creativecloud/plans.html</a>
+  <p style="font-size:13px; color:var(--label-2)">個人版: 年間一括 ¥102,960/年。年更新。</p>
+</div>
+
+<!-- ==================== 各自登録 ==================== -->
+<h2>各自登録（ユーザーごとに必要）</h2>
+
+<div class="service">
+  <div class="service-header">
+    <span class="service-name">8. Claude Pro</span>
+    <span class="service-badge badge-individual">各自</span>
+  </div>
+  <p class="service-desc">Claude Code を使うために必須。各自のアカウントで契約。</p>
+  <a class="service-link" href="https://claude.ai" target="_blank">claude.ai</a>
+  <p style="font-size:13px; color:var(--label-2)">$20/月/人。セットアップガイドのStep 2で案内済み。</p>
+</div>
+
+<div class="service">
+  <div class="service-header">
+    <span class="service-name">9. Google OAuth</span>
+    <span class="service-badge badge-individual">各自</span>
+  </div>
+  <p class="service-desc">各自のGmail / Calendar / Drive にアクセスするため、個別のOAuth認証が必要。</p>
+  <a class="service-link" href="https://console.cloud.google.com/" target="_blank">console.cloud.google.com</a>
+  <p style="font-size:13px; color:var(--label-2)">/setup 実行時に自動で案内されます。</p>
+</div>
+
+<!-- ==================== 配布手順 ==================== -->
+<h2>配布手順</h2>
+
+<div class="card">
+  <h3 style="margin-top:0">APIキー配布の流れ</h3>
+  <ul class="checklist">
+    <li>上記1-5のAPIキーを全て取得</li>
+    <li>.env ファイルにまとめる（下記テンプレート参照）</li>
+    <li>Google Drive の限定共有フォルダに .env を設置</li>
+    <li>相手にダウンロードリンクを送信</li>
+    <li>相手が my_workspace/ に .env を配置</li>
+    <li>ダウンロード確認後、Drive の共有を解除</li>
+  </ul>
+</div>
+
+<div class="card">
+  <h3 style="margin-top:0">.env テンプレート</h3>
+  <div style="background:var(--label); color:var(--bg); border-radius:8px; padding:16px 20px; font-family:'SF Mono',ui-monospace,Consolas,monospace; font-size:12px; line-height:1.8; white-space:pre-wrap; margin-top:12px;"># ===== 共有API（水信が登録済み）=====
+GEMINI_API_KEY=ここに貼る
+LINE_CHANNEL_ACCESS_TOKEN=ここに貼る
+LINE_CHANNEL_SECRET=ここに貼る
+OPENAI_API_KEY=sk-ここに貼る
+MNML_API_KEY=ここに貼る
+REINFOLIB_API_KEY=ここに貼る
+ANTHROPIC_API_KEY=sk-ant-ここに貼る
+HUGGINGFACE_TOKEN=hf_ここに貼る
+IDEOGRAM_API_KEY=ここに貼る
+KLING_API_KEY=ここに貼る
+
+# ===== 各自設定（/setup で自動案内）=====
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+GOOGLE_REFRESH_TOKEN=</div>
+</div>
+
+<!-- ==================== 料金概算 ==================== -->
+<h2>料金概算（全体）</h2>
+
+<div class="card">
+  <h3 style="margin-top:0">3人体制の場合（水信 + 事務 + 社長）</h3>
+  <table>
+    <thead>
+      <tr><th>項目</th><th>契約形態</th><th style="text-align:right">月額目安</th><th style="text-align:right">年額</th></tr>
+    </thead>
+    <tbody>
+      <tr><td colspan="4" style="font-size:12px; font-weight:500; color:var(--label-2); padding-top:16px;">各自契約（3人分）</td></tr>
+      <tr><td>Claude Pro x2（事務・社長）</td><td>$20/月/人</td><td class="price">¥6,000</td><td class="price">¥72,000</td></tr>
+      <tr><td>Claude Max x1（水信）</td><td>$100/月</td><td class="price">¥15,000</td><td class="price">¥180,000</td></tr>
+      <tr><td colspan="4" style="font-size:12px; font-weight:500; color:var(--label-2); padding-top:16px;">共有サブスク</td></tr>
+      <tr><td>Canva ビジネス（1アカウント）</td><td>¥18,800/年</td><td class="price">¥1,567</td><td class="price">¥18,800</td></tr>
+      <tr><td colspan="4" style="font-size:12px; font-weight:500; color:var(--label-2); padding-top:16px;">水信のみ</td></tr>
+      <tr><td>Adobe CC Pro x1</td><td>¥102,960/年（年更新）</td><td class="price">¥8,580</td><td class="price">¥102,960</td></tr>
+      <tr><td colspan="4" style="font-size:12px; font-weight:500; color:var(--label-2); padding-top:16px;">共有API（従量制・サブスク）</td></tr>
+      <tr><td>Google Gemini API</td><td>無料枠</td><td class="price">¥0</td><td class="price">¥0</td></tr>
+      <tr><td>LINE Messaging API</td><td>無料プラン</td><td class="price">¥0</td><td class="price">¥0</td></tr>
+      <tr><td>OpenAI API</td><td>従量制</td><td class="price">¥750</td><td class="price">¥9,000</td></tr>
+      <tr><td>mnml.ai</td><td>従量制（500cr $49）</td><td class="price">¥750</td><td class="price">¥9,000</td></tr>
+      <tr><td>不動産情報ライブラリ</td><td>無料</td><td class="price">¥0</td><td class="price">¥0</td></tr>
+      <tr><td>Anthropic API</td><td>従量制</td><td class="price">¥750</td><td class="price">¥9,000</td></tr>
+      <tr><td>Hugging Face</td><td>無料枠</td><td class="price">¥0</td><td class="price">¥0</td></tr>
+      <tr><td>Ideogram（Plus）</td><td>$15/月 + 従量制</td><td class="price">¥2,250</td><td class="price">¥27,000</td></tr>
+      <tr><td>Kling AI（Standard）</td><td>$6.99/月</td><td class="price">¥1,049</td><td class="price">¥12,588</td></tr>
+      <tr class="total-row">
+        <td>合計（3人）</td>
+        <td></td>
+        <td class="price">約 ¥36,696/月</td>
+        <td class="price">約 ¥440,348/年</td>
+      </tr>
+    </tbody>
+  </table>
+  <p style="font-size:12px; color:var(--label-3); margin-top:8px">※ $1=¥150換算。OpenAI/mnml.aiは月$5程度の利用を想定。Adobe CCは個人版の価格。法人版は+約¥41,000/年/人。</p>
+</div>
+
+<div class="card">
+  <h3 style="margin-top:0">Adobe CC なしの場合</h3>
+  <table>
+    <tbody>
+      <tr class="total-row">
+        <td>合計（3人）</td>
+        <td></td>
+        <td class="price">約 ¥15,200/月</td>
+        <td class="price" style="text-align:right">約 ¥182,400/年</td>
+      </tr>
+      <tr>
+        <td style="color:var(--label-2)">1人あたり</td>
+        <td></td>
+        <td class="price" style="color:var(--label-2)">約 ¥5,070/月</td>
+        <td class="price" style="color:var(--label-2); text-align:right">約 ¥60,800/年</td>
+      </tr>
+    </tbody>
+  </table>
+  <p style="font-size:12px; color:var(--label-3); margin-top:8px">※ 事務・社長がAdobe CCを使わない場合。水信のみAdobe CC契約なら合計 約¥24,000/月。</p>
+</div>
+
+<!-- Footer -->
+<div style="text-align:center; padding:48px 0 24px; color:var(--label-3); font-size:11px;">
+  API Registration Checklist v1.0 / 2026-05-09 / Internal Use Only
+</div>
+
+</div>
+</body>
+</html>
