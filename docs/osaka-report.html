@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>大阪の住宅市場と発信の立ち位置</title>
+<style>
+  :root {
+    --accent: #4A90B8;
+    --accent-soft: rgba(74,144,184,0.08);
+    --label: #1D1D1F;
+    --label-2: rgba(60,60,67,0.55);
+    --label-3: rgba(60,60,67,0.30);
+    --bg: #F5F5F7;
+    --surface: #FFFFFF;
+    --fill: rgba(120,120,128,0.08);
+    --sep: rgba(60,60,67,0.10);
+    --sep-opaque: #D6D6D8;
+    --shadow-card: 0 1px 4px rgba(0,0,0,0.05), 0 0.5px 1.5px rgba(0,0,0,0.03);
+    --radius: 12px;
+    --font: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Noto Sans JP', 'Helvetica Neue', sans-serif;
+    --font-text: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Noto Sans JP', 'Helvetica Neue', sans-serif;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: var(--font-text); background: var(--bg); color: var(--label);
+    font-size: 15px; font-weight: 400; line-height: 24px; letter-spacing: -0.2px;
+    -webkit-font-smoothing: antialiased;
+  }
+  .container { max-width: 720px; margin: 0 auto; padding: 48px 24px 64px; }
+
+  .cover { text-align: center; padding: 64px 0 48px; }
+  .cover-title {
+    font-family: var(--font); font-size: 28px; font-weight: 600;
+    line-height: 36px; letter-spacing: -0.5px; margin-bottom: 16px;
+  }
+  .cover-sub { font-size: 15px; color: var(--label-2); margin-bottom: 8px; line-height: 24px; }
+  .cover-note { font-size: 12px; font-weight: 500; color: var(--label-3); line-height: 16px; }
+
+  .section { margin-bottom: 56px; }
+  .section-number {
+    font-size: 12px; font-weight: 500; color: var(--accent);
+    letter-spacing: 0.5px; text-transform: uppercase; margin-bottom: 4px;
+  }
+  .section-title {
+    font-family: var(--font); font-size: 22px; font-weight: 600;
+    line-height: 28px; letter-spacing: -0.3px; margin-bottom: 16px;
+  }
+  .section-lead { font-size: 15px; color: var(--label-2); margin-bottom: 24px; line-height: 24px; }
+
+  .card {
+    background: var(--surface); border-radius: var(--radius);
+    box-shadow: var(--shadow-card); padding: 20px 24px; margin-bottom: 16px;
+  }
+  .card-title { font-size: 15px; font-weight: 600; margin-bottom: 12px; }
+  .card ul { list-style: none; padding: 0; }
+  .card ul li {
+    font-size: 14px; line-height: 22px; color: var(--label);
+    padding: 6px 0 6px 16px; position: relative; letter-spacing: -0.15px;
+  }
+  .card ul li::before {
+    content: ''; position: absolute; left: 0; top: 13px;
+    width: 4px; height: 4px; border-radius: 50%; background: var(--label-3);
+  }
+  .card p { font-size: 14px; line-height: 22px; margin-bottom: 8px; }
+  .card p:last-child { margin-bottom: 0; }
+
+  .stat-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; margin-bottom: 16px; }
+  .stat-card {
+    background: var(--surface); border-radius: var(--radius);
+    box-shadow: var(--shadow-card); padding: 20px 12px; text-align: center;
+  }
+  .stat-value {
+    font-family: var(--font); font-size: 22px; font-weight: 600;
+    line-height: 28px; letter-spacing: -0.3px; color: var(--accent);
+  }
+  .stat-label { font-size: 11px; font-weight: 500; color: var(--label-2); margin-top: 4px; line-height: 15px; }
+
+  .table-wrap {
+    background: var(--surface); border-radius: var(--radius);
+    box-shadow: var(--shadow-card); overflow: hidden; margin-bottom: 16px;
+  }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; line-height: 20px; }
+  thead { background: var(--fill); }
+  th { font-weight: 500; color: var(--label-2); text-align: left; padding: 10px 14px; font-size: 11px; }
+  td { padding: 10px 14px; border-top: 1px solid var(--sep); }
+  td:first-child { font-weight: 500; }
+
+  .hl { color: var(--accent); font-weight: 500; }
+  .fine { color: var(--label-3); font-size: 11px; line-height: 15px; margin-top: 8px; }
+  .divider { border: none; border-top: 1px solid var(--sep); margin: 48px 0; }
+
+  .insight {
+    background: var(--accent-soft); border-radius: var(--radius);
+    padding: 20px 24px; margin-bottom: 16px;
+  }
+  .insight-title { font-size: 14px; font-weight: 600; color: var(--accent); margin-bottom: 6px; }
+  .insight p { font-size: 14px; line-height: 22px; color: var(--label); }
+
+  .question-card {
+    background: var(--accent-soft); border-radius: var(--radius);
+    padding: 20px 24px; margin-bottom: 12px;
+  }
+  .question-label { font-size: 12px; font-weight: 500; color: var(--accent); margin-bottom: 4px; }
+  .question-text {
+    font-family: var(--font); font-size: 17px; font-weight: 600;
+    line-height: 24px; letter-spacing: -0.4px; margin-bottom: 8px;
+  }
+  .question-body { font-size: 14px; line-height: 22px; color: var(--label-2); }
+
+  .footer { margin-top: 64px; padding-top: 24px; border-top: 1px solid var(--sep); }
+  .footer p { font-size: 11px; color: var(--label-3); line-height: 16px; margin-bottom: 4px; }
+
+  @media print {
+    body { background: white; }
+    .container { padding: 24px; max-width: 100%; }
+    .card, .stat-card, .table-wrap, .question-card, .insight { box-shadow: none; border: 1px solid var(--sep-opaque); }
+  }
+  @media (max-width: 480px) {
+    .stat-grid { grid-template-columns: 1fr; }
+    .cover-title { font-size: 22px; line-height: 28px; }
+  }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Cover -->
+  <div class="cover">
+    <h1 class="cover-title">大阪の住宅市場で、<br>うちはどこに立つか</h1>
+    <p class="cover-sub">デライトハウスの成功を見て始まった調査。大阪の競合の集客方法、SNSで実際にImpが取れているコンテンツ、検討者が本当に見ているもの。その全体像の中で、もみの木ハウス大阪の発信の方向性を考えるための資料。</p>
+    <p class="cover-note">2026年6月16日 / 方向性確認のための議論用</p>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ================================ -->
+  <!-- Part 1: 発端 -->
+  <!-- ================================ -->
+  <div class="section">
+    <p class="section-number">発端</p>
+    <h2 class="section-title">デライトハウスを調べて見えたこと</h2>
+
+    <div class="card">
+      <ul>
+        <li>デライトハウス（富田林市）。IG 72,500、TikTok 56,300。従業員6名でSNS専任が1名。毎日1.8本投稿。「ワクワク」「デザイン」軸で発信し、SIMPLE NOTEというFC住宅ブランドの映える施工事例を武器にしている</li>
+        <li>「年3棟→20棟になった」という情報があったが、公開データでは裏取りできなかった。従業員6名の体制から推定すると年間5-10棟程度の可能性がある。<span class="hl">IG7.2万フォロワーでも棟数は10棟以下かもしれない</span></li>
+        <li>しかしそれ以上に大事なことが見えた。デライトハウスの手法を真似するかどうかの前に、<span class="hl">大阪の検討者がどこにいて何を見ているか、競合がどうやって集客しているか、SNSで何がImpを取れるか</span>——この全体像を知らないと、発信の方向性は決められない</li>
+      </ul>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ================================ -->
+  <!-- Part 2: 大阪の市場 -->
+  <!-- ================================ -->
+  <div class="section">
+    <p class="section-number">Part 1</p>
+    <h2 class="section-title">大阪の住宅市場の現実</h2>
+
+    <div class="stat-grid">
+      <div class="stat-card">
+        <div class="stat-value">817世帯</div>
+        <div class="stat-label">毎月注文住宅を建てている</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">5,526万</div>
+        <div class="stat-label">土地込み総額</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value">55.3%</div>
+        <div class="stat-label">「信頼」で工務店を選ぶ</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <ul>
+        <li>大阪では年間9,802戸の注文住宅が着工されている。全国が4年連続減少する中で大阪は+2.5%増。市場は縮んでいない</li>
+        <li>大阪で家を建てると全国平均より519万円高い。年収の約8倍のローンを組む買い物。失敗が許されない金額だから、検討者は事前に調べる</li>
+        <li>施工者を選んだ理由の1位は「信頼できる会社だったから」55.3%。性能でもデザインでも価格でもなく、信頼。展示場を持たない会社がこの「信頼」をどう作るかが全て</li>
+        <li>大阪の猛暑日は42日（歴代最多）、6-7月の湿度は71%。湿気・カビ・結露は工務店の種類に関係なく大阪の全世帯に共通する問題</li>
+      </ul>
+      <p class="fine">出典: 国土交通省 建築着工統計(2024) / フラット35利用者調査(2023-2024) / 国土交通省 住宅市場動向調査(R6) / 気象庁</p>
+    </div>
+  </div>
+
+  <!-- ================================ -->
+  <!-- Part 3: 競合の集客方法 -->
+  <!-- ================================ -->
+  <div class="section">
+    <p class="section-number">Part 2</p>
+    <h2 class="section-title">大阪の競合はどうやって集客しているか</h2>
+    <p class="section-lead">大阪で注文住宅を建てている会社の集客方法は、大きく4つのパターンに分かれる。</p>
+
+    <div class="card">
+      <div class="card-title">パターンA: 展示場の数で勝つ</div>
+      <ul>
+        <li><span class="hl">泉北ホーム: 年間550棟</span>。ショールーム+モデルハウス計20拠点以上。堺市が本拠地。来場フェアでギフトカード6,000円分。大阪で展示場が最も多い会社。「来てもらう場所」が大量にある</li>
+        <li><span class="hl">小林住宅: 推定80-100棟</span>。総合展示場に複数出展。「外断熱住宅関西No.1」。1946年創業の80年ブランド。1日1組限定の「夜の見学会」</li>
+        <li>このパターンは展示場維持に年間数千万円〜億単位のコストがかかる。展示場を持たない会社が同じ土俵で戦うのは現実的ではない</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title">パターンB: SNSの映え・世界観で勝つ</div>
+      <ul>
+        <li><span class="hl">ひかり工務店: 新築年間40棟、IG 152,000</span>。大阪IG1位。集客の8割超がIG経由。月50組来場、CPA 3万円以下。プロカメラマン撮影のみ使用（社員撮影は世界観が崩れるので不採用）。「おしゃれな家の写真を見て憧れて来場する」導線。教育コンテンツはない</li>
+        <li><span class="hl">D'S STYLE: 年間120棟、IG 92,000</span>。常時10棟のモデルハウスを運営。「来場者のほぼ100%がモデルハウス訪問が決め手」。IG映え+モデルハウス体感の掛け算</li>
+        <li><span class="hl">ディライトハウス: IG 72,500、TikTok 56,300</span>。従業員6名でIG7.2万は驚異的。ただし棟数は推定5-10棟。SNSの認知力と受注が比例するとは限らない</li>
+        <li>このパターンは「ビジュアルの力」で引きつける。プロ写真の品質、映える施工事例の数、投稿頻度が全て。教育や性能の話はしない</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title">パターンC: YouTubeの技術解説で勝つ</div>
+      <ul>
+        <li><span class="hl">Gハウス: 年間24棟、YouTube 30,100登録者（大阪1位）</span>。施主ルームツアー特化。C値0.15、UA値0.46等の性能データを動画内で全公開。「忖度なし」を謳い、施主の3年後の声を載せる。年間950組来場</li>
+        <li>このパターンは「知識と透明性」で引きつける。来場する人は「この会社は数字を隠さない」と思って来る。年間24棟と少ないが、来場者の質が高く少数精鋭で経営が成立する</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title">パターンD: 素材ブランド+教育で勝つ</div>
+      <ul>
+        <li><span class="hl">コアー建築工房: 年間35棟、IG 21,600</span>。「住まい講座」を第51期まで継続開催（オフライン対面）。紀州材+OMソーラー。棟梁制（1棟1大工）。対面で教育して信頼を構築する。デジタルファネルは弱い</li>
+        <li><span class="hl">木の家イムラ: 推定20-30棟</span>。「吉野杉」という素材名だけでブランドを確立。奈良県立医科大学と6年間の共同研究。展示場5拠点。SNSは弱いが指名検索で選ばれる</li>
+        <li>このパターンは「素材のストーリー」と「対面教育」で引きつける。SNSでの拡散力は弱いが、来た人の成約率が高い</li>
+      </ul>
+    </div>
+
+    <div class="insight">
+      <div class="insight-title">4パターンの比較</div>
+      <p>展示場型は「箱の数」、映え型は「写真の質」、技術型は「データの透明性」、素材型は「ストーリーと教育」で集客している。LINE登録後に教育コンテンツで育成し、来場予約に導くファネルを持っている会社は、調査範囲では確認できなかった。</p>
+    </div>
+  </div>
+
+  <!-- ================================ -->
+  <!-- Part 4: 何がImpを取れるか -->
+  <!-- ================================ -->
+  <div class="section">
+    <p class="section-number">Part 3</p>
+    <h2 class="section-title">SNSで実際にImpが取れているコンテンツ</h2>
+    <p class="section-lead">もみの木ハウスの話ではなく、住宅業界全体で「視聴者が実際に見ているもの」。</p>
+
+    <div class="card">
+      <div class="card-title">YouTube: 再生数TOP3の中身</div>
+      <ul>
+        <li><span class="hl">307万再生</span>「選ぶ人が減っている残念設備10選」（平松建築）。中身は浴室テレビ、床暖房、天窓など「プロが24年間一度も提案したことがない設備」を経験則で否定していく構成。「素晴らしい設備10選」ではなく「残念な設備10選」</li>
+        <li><span class="hl">270万再生</span>「エアコンは6,10,14畳用しか買ってはいけない」（松尾設計室）。低温暖房能力の数値を比較し「8畳用は6畳用とほぼ同じ性能なのに4.6万円高い」とデータで証明。エアコンは全国民が買うものだから対象が検討者→全国民に広がってバズった</li>
+        <li><span class="hl">178万再生</span>「この設備がある家、やばすぎる!」（平松建築）。防犯テーマ。闇バイト強盗の時事と合致し「自分の家は大丈夫か？」で全員が自分ごとにできた</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title">TikTok: 何がフォロワーを生んでいるか</div>
+      <ul>
+        <li>TikTokは<span class="hl">ルームツアー一強</span>。ONLY YOU HOME 29万フォロワー、パルコホーム12.7万。家の中を短尺で歩いて見せるフォーマットが成立している。パルコホームはスマホのみで12.7万を達成</li>
+        <li>ディライトハウスの<span class="hl">110万いいね</span>動画「息子のただいま動線」は、住宅の話ではなく子育ての話として拡散した。住宅に興味がない人まで届いたからバズった</li>
+        <li>告発系・性能系はTikTokではほぼ伸びない。TikTokでは「見せる」が全て</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Instagram: 何がフォロワーを生んでいるか</div>
+      <ul>
+        <li>善匠（名古屋）<span class="hl">92.5万フォロワー</span>。豪華デザイン住宅のプロ写真を1,829件投稿。写真の質がそのままフォロワー数に直結している</li>
+        <li>エコワークス <span class="hl">38.3万フォロワー</span>。間取り図付きの施工事例と「コメントで間取り図プレゼント」の誘導でエンゲージメントを稼いでいる</li>
+        <li>保存されやすいのは「チェックリスト系」「ビフォーアフター」「間取り図付きルームツアー」。実用性のある情報が保存を生む</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title">性能解説（断熱・気密・調湿等）の現実</div>
+      <ul>
+        <li>松尾設計室が断熱・気密のYouTubeで日本一だが、通常の性能解説動画は<span class="hl">5-11万再生が上限</span>。平松建築の307万とは桁が違う</li>
+        <li>ただし松尾設計室「エアコン」は270万再生。対象が「家を建てる人」から「全国民」に広がると桁が変わることの証明</li>
+        <li>性能の話は「聞きたい人は聞くが、多くの人は聞かない」テーマ。性能だけで発信してもImpは取りにくい</li>
+      </ul>
+    </div>
+
+    <div class="insight">
+      <div class="insight-title">バズの法則（もみの木関係なく）</div>
+      <p>1. 対象層が広いほどImpが取れる（検討者だけ→全国民に広がると桁が変わる）<br>
+      2. 「得する話」より「損する話」に人は強く反応する（307万は「残念設備」であり「素晴らしい設備」ではない）<br>
+      3. 「何を語るか」より「どう語るか」でImpが決まる（同じ内容でもタイトルとサムネで10倍変わる）</p>
+    </div>
+  </div>
+
+  <!-- ================================ -->
+  <!-- Part 5: 検討者が見ているもの -->
+  <!-- ================================ -->
+  <div class="section">
+    <p class="section-number">Part 4</p>
+    <h2 class="section-title">検討者が本当に見ているもの</h2>
+    <p class="section-lead">工務店が「出したいもの」と検討者が「見たいもの」にはギャップがある。</p>
+
+    <div class="card">
+      <div class="card-title">検討者がSNSで参考にした情報（n=810）</div>
+      <ul>
+        <li>1位: <span class="hl">間取り 53.2%</span></li>
+        <li>2位: <span class="hl">施工事例 41.7%</span></li>
+        <li>3位: <span class="hl">機能性 34.4%</span></li>
+        <li>「素材の良さ」「健康効果」「調湿性能」はランクインしていない</li>
+      </ul>
+      <p class="fine">出典: ゼンリン東海 2025年1月 (n=810)</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">検索の現実</div>
+      <ul>
+        <li>「大阪 注文住宅」月1,300回、「大阪 工務店」月880回。ここは検索需要がある</li>
+        <li>「注文住宅 後悔」<span class="hl">月2,400回</span>。検討者の最大の心理は「失敗したくない」</li>
+        <li>「大阪 健康住宅」<span class="hl">月10回</span>。「大阪 自然素材 家」<span class="hl">月0回</span>。健康・自然素材は大阪限定では検索されていない</li>
+        <li>検討者は「健康住宅が欲しい」と検索するのではなく「後悔したくない」「失敗したくない」と検索する</li>
+      </ul>
+      <p class="fine">出典: aramakijake.jp</p>
+    </div>
+
+    <div class="card">
+      <div class="card-title">「工務店が出したいもの」と「検討者が見たいもの」のギャップ</div>
+      <ul>
+        <li>工務店は「自社の技術力・素材のこだわり」を伝えたい → 検討者は「何で失敗するか」を知りたい</li>
+        <li>工務店は「性能の数値」を見せたい → 検討者は「完成した家を見たい」（ルームツアー）</li>
+        <li>工務店は「社長の想い」を語りたい → 検討者は「実際に住んだ人のリアルな声」を聞きたい</li>
+        <li>再生数307万は「残念設備10選」。「素晴らしい設備10選」ではない。人は「得する情報」より「損を避ける情報」に反応する</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title">検討者の検索行動は段階で変わる</div>
+      <ul>
+        <li><span class="hl">最初</span>: 「ルームツアー」で夢を見る（月132,000検索 — 住宅系最大）</li>
+        <li><span class="hl">次に</span>: 「費用」「間取り」で現実と向き合う</li>
+        <li><span class="hl">最後</span>: 「注文住宅 後悔」で不安を検証する（月2,400検索）</li>
+        <li>この最後の段階で検討者は<span class="hl">企業発の情報をあまり見ず、第三者の批判・本音を積極的に探す</span></li>
+      </ul>
+      <p class="fine">出典: ベイジの図書館(2023) 注文住宅の顧客体験分析</p>
+    </div>
+  </div>
+
+  <!-- ================================ -->
+  <!-- Part 6: 他業界 -->
+  <!-- ================================ -->
+  <div class="section">
+    <p class="section-number">Part 5</p>
+    <h2 class="section-title">他業界から見えること</h2>
+    <p class="section-lead">住宅だけ見ていると視野が狭くなる。高単価商材には共通パターンがある。</p>
+
+    <div class="card">
+      <ul>
+        <li><span class="hl">美容クリニック</span>: LINEステップ5段配信で予約120%増。最初は数日おきに配信していたが「6日目で離脱増加」→毎日1通に変更したら改善した（LINEヤフー for Business公式事例）</li>
+        <li><span class="hl">保険業界</span>: 保険市場（LINE友だち100万人）は来店予約の10-20%がLINE経由。ただし友だち追加から来店までのタイムラグは半年〜1年。週1-2回の教育コラム配信で長期育成している</li>
+        <li><span class="hl">不動産投資</span>: 日本財託はLINEで100記事以上を教育配信し、セミナー累計参加2.4万人。「無料書籍→教育→セミナー→面談→契約」のファネルが業界標準</li>
+        <li><span class="hl">ウェビナー（業界横断）</span>: セミナー参加者に翌日フォローすると商談化率50%。3日遅れると10%に急落。教育コンテンツを見た直後のフォローが転換率を決定的に左右する</li>
+        <li>共通法則: <span class="hl">教育コンテンツを挟むと転換率が劇的に上がる</span>。来場前に「学ばせてから会う」と、来場後の成約率が変わる</li>
+      </ul>
+      <p class="fine">出典: LINEヤフー for Business / Web担当者Forum / 日本財託 / シナジーマーケティング</p>
+    </div>
+  </div>
+
+  <hr class="divider">
+
+  <!-- ================================ -->
+  <!-- Part 7: もみの木の現在地 -->
+  <!-- ================================ -->
+  <div class="section">
+    <p class="section-number">Part 6</p>
+    <h2 class="section-title">この全体像の中で、もみの木大阪は今どこにいるか</h2>
+
+    <div class="card">
+      <div class="card-title">数字で見る現在地</div>
+      <ul>
+        <li>YouTube登録者 427人（大阪15位前後）。月間再生 14,040</li>
+        <li>Instagram 928フォロワー（ひかり工務店の0.6%）</li>
+        <li>LINE 55人</li>
+        <li>年間最大10棟（大阪の持家着工9,802戸の0.1%）</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title">自社コンテンツの全数分析で見えたこと（181本のYT + 186本のIG）</div>
+      <ul>
+        <li>YouTubeで最も再生されるテーマは<span class="hl">床材/素材（ヒット率32%、他テーマの3倍）</span>。バズ動画TOP5のうち3本が床材テーマ。ここが濱本社長だけが語れる領域</li>
+        <li>一方、土地テーマは20本投入してヒット率0%。コスト/お金テーマも5本で平均287再生。「何でも話す」より「自分だけが話せるテーマ」に集中した方が再生が取れる</li>
+        <li>YouTubeでは告発系が平均1,360再生で最強。Instagramでは憧れ系が平均18.9いいねで最強。<span class="hl">同じ内容でも媒体によって効く感情が正反対</span></li>
+        <li>IGの暴露本CTA投稿は平均10.5いいねで全186投稿中の最低群。竣工式/見学会は平均34。IGでは「暴露本を読んで」と直接言うより「この家を見て」と信頼を見せた方が反応がいい</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <div class="card-title">4パターンの中での位置づけ</div>
+      <ul>
+        <li>A（展示場型）: 展示場を持たない。このパターンは取れない</li>
+        <li>B（映え型）: プロカメラマンやSNS専任はいない。ひかり工務店やディライトハウスと同じ土俵で戦うのは難しい</li>
+        <li>C（技術型）: YouTubeで性能・素材を語るGハウス型。年間24棟でYT3万登録者。規模感が近い</li>
+        <li>D（素材型）: もみの木という素材ブランド。イムラの「吉野杉」、コアーの「紀州材」と同じ構造</li>
+        <li>現状は<span class="hl">CとDのハイブリッド</span>に最も近い。ただしCもDも「Impが取りにくい」パターンであるという問題がある</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- ================================ -->
+  <!-- Part 8: 問い -->
+  <!-- ================================ -->
+  <div class="section">
+    <p class="section-number">Part 7</p>
+    <h2 class="section-title">ここから先の問い</h2>
+    <p class="section-lead">答えではなく、方向性を決めるための問い。</p>
+
+    <div class="question-card">
+      <p class="question-label">問い 1</p>
+      <p class="question-text">Impが取れるテーマで発信するか、差別化テーマで発信するか、両立させるか</p>
+      <p class="question-body">Impが取れるテーマ（後悔系・ルームツアー）と、差別化テーマ（素材・健康・調湿）は別物。後悔系307万再生 vs 性能解説11万。ただし「知らずに選ぶと後悔する床材3選」のように、Impが取れる「型」に差別化テーマを載せると両立できる可能性がある。</p>
+    </div>
+
+    <div class="question-card">
+      <p class="question-label">問い 2</p>
+      <p class="question-text">検討者の入口は「健康住宅」ではなく「後悔したくない」。入口のテーマをどうするか</p>
+      <p class="question-body">「大阪 健康住宅」は月10回しか検索されていない。「注文住宅 後悔」は月2,400回。検討者は「健康な家が欲しい」とは検索しない。「失敗したくない」と検索する。その先にもみの木の話を持っていく設計が必要だとすると、入口は何にするか。</p>
+    </div>
+
+    <div class="question-card">
+      <p class="question-label">問い 3</p>
+      <p class="question-text">ディライトハウスのように「映え」で行くか、Gハウスのように「技術」で行くか、別の道か</p>
+      <p class="question-body">ディライトハウスはIG7.2万でも推定5-10棟。映えでフォロワーは増えるが棟数に直結するとは限らない。Gハウスは24棟でYT3万。技術解説で来場者の質を上げている。もみの木大阪はSNS専任なし、プロカメラマンなし。同じ体制でどちらに近いことができるか。</p>
+    </div>
+
+    <div class="question-card">
+      <p class="question-label">問い 4</p>
+      <p class="question-text">来場前の「教育」をどこまでやるか</p>
+      <p class="question-body">美容クリニックはLINEステップ配信で予約120%増。保険業界は半年かけて教育して来店に導く。「教育を挟むと転換率が上がる」のは他業界で実証されている。暴露本がその装置として機能する可能性があるが、今のファネルの数字はまだ小さすぎて効果の検証ができていない。教育に時間をかけるか、まずImpの量を優先するか。</p>
+    </div>
+
+    <div class="question-card">
+      <p class="question-label">問い 5</p>
+      <p class="question-text">何を最初にやるか</p>
+      <p class="question-body">全部はできない。社長の時間は有限。コスト0円で今日できること（プロフィール文言の変更）から、時間と予算がかかること（広告・撮影体制）まで幅がある。まず何から手をつけるか。</p>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="footer">
+    <p>主要出典: 国土交通省 建築着工統計(2024) / 国土交通省 住宅市場動向調査(R6) / 住宅金融支援機構 フラット35利用者調査(2023-2024) / 総務省 住宅・土地統計調査(2023) / 気象庁 / 住宅展示場協議会(2024) / 住宅生産振興財団 / And Doホールディングス(2025, n=455) / ゼンリン東海(2025, n=810) / ベイジの図書館(2023) / aramakijake.jp / LINEヤフー for Business / 各社公式サイト・SNSアカウント・プレスリリース</p>
+    <p>調査日: 2026-06-16</p>
+    <p>本資料は方向性確認のための議論資料です。全部やるという提案ではありません。</p>
+  </div>
+
+</div>
+</body>
+</html>
